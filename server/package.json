@@ -1,0 +1,11 @@
+{
+  "name": "testaudio",
+  "version": "1.0.0",
+  "description": "testaudio: An Ionic project",
+  "dependencies": {
+    "express": "^3.20.2",
+    "socket.io": "^1.3.5",
+    "uuid": "^2.0.1"
+  },
+
+}
