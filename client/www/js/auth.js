@@ -1,7 +1,7 @@
 /**
  * Created by goer on 4/28/15.
  */
-angular.module('Auth',['ionic', 'ngCordova',  'satellizer',  ])
+angular.module('Auth',['Data','ionic', 'ngCordova',  'satellizer',  ])
 
 
     // Configure Satellizer.
@@ -49,6 +49,8 @@ angular.module('Auth',['ionic', 'ngCordova',  'satellizer',  ])
                 statusid : 0,
                 islogin : false,
                 email: '',
+                firstname : '',
+                lastname : '',
                 picture: '',
                 gender: 'm',
             },
@@ -314,10 +316,19 @@ angular.module('Auth',['ionic', 'ngCordova',  'satellizer',  ])
 
     })
 
-    .controller('AuthCtrl',function ($scope, AuthSvc) {
+    .controller('AuthCtrl',function ($scope, AuthSvc, $auth) {
+
+        $scope.login = function () {
 
 
-        $scope.googleLogin = AuthSvc.googleLogin;
+            if (ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
+                AuthSvc.googleLogin();
+            }else{
+                $auth.authenticate('google');
+            }
+
+        }
+
 
 
     })
