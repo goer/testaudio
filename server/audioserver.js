@@ -113,6 +113,7 @@ io.sockets.on('connection', function(s) {
 		io.sockets.in(data.roomid).emit('message', data);
 	})
 
+
 })
 
 app.post('/message/:roomId', function(req, res) {
@@ -125,6 +126,8 @@ app.post('/message/:roomId', function(req, res) {
 	res.json({ statusid: 200 });
 
 });
+
+
 
 
 server.listen(app.get('port'), app.get('ipaddr'), function(){
