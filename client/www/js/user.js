@@ -5,7 +5,7 @@
 angular.module('User', ['ServerConfig','js-data'])
 
     .config(function (DSProvider,ServerSvc) {
-        DSProvider.defaults.basePath = ServerSvc.baseUrl; // etc.
+        DSProvider.defaults.basePath = ServerSvc.baseUrl(); // etc.
     })
 
     .factory('Room', function (DS) {
@@ -255,10 +255,48 @@ angular.module('User', ['ServerConfig','js-data'])
 
         var owner = null;
 
+
+        var load = function () {
+            owner = $localstorage.getObject('owner');
+        }
+
+        var save = function () {
+            $localstorage.setObject('owner',owner);
+        }
+
         var login = function (userName, password) {
 
-            return User.findAll({username: 'goer'}).then(function (usr) {
+            console.log('try login: '+userName)
+
+            owner = {
+                id : 1,
+                username : 'goer',
+                email: 'fonetix@gmail.com'
+            }
+
+            return owner;
+
+            return User.findAll(
+                {
+                    username: 'goer',
+                    //password: password
+                }
+            ).then(function (usr) {
                 owner = usr;
+            })
+
+        }
+
+        var signup = function (userName, password, optional,cb,ob) {
+
+            return User.create(
+                {
+                    username: userName,
+                    password: password
+
+                },function(usr){
+
+                    owner = usr;
             })
 
         }
@@ -277,7 +315,11 @@ angular.module('User', ['ServerConfig','js-data'])
         }
 
         var isLogin = function () {
-            if (owner != null) return true;
+            if (owner != null) {
+                console.log('Login')
+                return true;
+            }
+            console.log('Not Login');
             return false;
         }
 
@@ -293,6 +335,9 @@ angular.module('User', ['ServerConfig','js-data'])
             logout: logout,
             isLogin: isLogin,
             getOwner: getOwner,
+            signup: signup,
+            load: load,
+            save: save,
         }
 
     })

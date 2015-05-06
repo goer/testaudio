@@ -3,12 +3,10 @@
  */
 angular.module('ServerConfig',[])
 
-    .factory('ServerSvc',function(){
+    .constant('ServerSvc',{
 
-        return {
-
-            baseUrl: 'http://192.168.35.140:7070'
-
+        baseUrl : function () {
+            return 'http://192.168.35.140:7070';
         }
 
     })

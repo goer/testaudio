@@ -1,7 +1,7 @@
 /**
  * Created by goer on 4/30/15.
  */
-angular.module('Data',['js-data'])
+angular.module('Data',['js-data','ServerConfig'])
 
 
     .factory('$localstorage', ['$window', function($window) {
@@ -21,8 +21,8 @@ angular.module('Data',['js-data'])
         }
     }])
 
-    .config(function (DSProvider) {
-        DSProvider.defaults.basePath = 'http://192.168.35.145:7070'; // etc.
+    .config(function (DSProvider,ServerSvc) {
+        DSProvider.defaults.basePath = ServerSvc.baseUrl(); // etc.
     })
 
     .factory('Message', function (DS) {

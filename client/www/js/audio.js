@@ -221,7 +221,7 @@ angular.module('Audio',['ngCordova','Auth','ServerConfig','Socket','Data'])
                     //console.log("Audio Message Saved: "+base64Data);
                     console.log("msgid:" + msg.id);
                     console.log("audioid:" + msg.content);
-                    $scope.audioUrl = ServerSvc.baseUrl+'/audio/' + msg.content;
+                    $scope.audioUrl = ServerSvc.baseUrl()+'/audio/' + msg.content;
 
                     //$scope.playRecord();
 
@@ -232,7 +232,7 @@ angular.module('Audio',['ngCordova','Auth','ServerConfig','Socket','Data'])
 
         $socket.on('audio',function(data){
             console.log("receive audioid:"+data.audioid);
-            $scope.audioUrl = ServerSvc.baseUrl+'/audio/'+data.audioid;
+            $scope.audioUrl = ServerSvc.baseUrl()+'/audio/'+data.audioid;
             $scope.playRecord();
         })
 

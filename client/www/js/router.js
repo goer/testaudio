@@ -9,13 +9,36 @@ angular.module('Router',['Auth'])
 
             .state('login', {
                 url: "/login",
-                views : {
-                    'main' : {
-                        template: "tpl/login.html",
+                views: {
+                    'main': {
+                        templateUrl: "tpl/login.html",
                         controller: 'AuthCtrl',
                     }
                 },
+                data: {
+                    requireLogin: false
+                }
 
             })
 
+            .state('main', {
+                url: "/main",
+                views: {
+                    'main': {
+                        templateUrl: "tpl/main.html",
+                        controller: 'AudioCtrl',
+                    }
+                },
+                data: {
+                    requireLogin: true
+                }
+
+            })
+
+        $urlRouterProvider.otherwise('/login');
+
     })
+
+;
+
+

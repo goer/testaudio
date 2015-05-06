@@ -41,32 +41,7 @@
 </head>
 <body ng-app="starter" ng-controller="AudioCtrl">
 
-<ion-pane>
-    <ion-header-bar class="bar-stable">
-        <h1 class="title">Ionic Blank Starter</h1>
+<ion-nav-view name="main"></ion-nav-view>
 
-        <div ng-controller="AuthCtrl">
-            <div class="buttons">
-                <button class="button" ng-click="login()">Login</button>
-            </div>
-        </div>
-    </ion-header-bar>
-    <ion-content>
-
-    </ion-content>
-
-    <ion-footer-bar align-title="left" class="bar-stable">
-        <h1 class="title">Status: {{status}}</h1>
-
-        <div class="buttons">
-            <button class="button" on-hold="startRecord()" on-release="stopRecord()">Record</button>
-        </div>
-
-        <div class="buttons">
-            <button class="button" ng-click="playRecord()">Play</button>
-        </div>
-    </ion-footer-bar>
-
-</ion-pane>
 </body>
 </html>

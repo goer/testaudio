@@ -1,7 +1,7 @@
 /**
  * Created by goer on 4/28/15.
  */
-angular.module('Auth',['Data','ionic', 'ngCordova',  'satellizer',  ])
+angular.module('Auth',['User','Data','ionic', 'ngCordova',  'satellizer',  ])
 
 
     // Configure Satellizer.
@@ -15,7 +15,7 @@ angular.module('Auth',['Data','ionic', 'ngCordova',  'satellizer',  ])
                 toolbar: 'no',
                 width: window.screen.width,
                 height: window.screen.height
-            },
+            }
         };
 
         //$authProvider.tokenName = 'access_token';
@@ -37,11 +37,11 @@ angular.module('Auth',['Data','ionic', 'ngCordova',  'satellizer',  ])
         $authProvider.google(angular.extend({}, commonConfig, {
             clientId: '169622791103-pr7n4oofbdemokc79ooolv2j3elnht0j.apps.googleusercontent.com',
             //url : '',
-            redirectUri : 'http://localhost/callback',
+            redirectUri : 'http://localhost/callback'
         }));
     })
 
-    .factory("AuthSvc", function ($cordovaOauth,$http,$localstorage) {
+    .factory("AuthSvc", function ($cordovaOauth,$http,$localstorage, User) {
 
 
         var user = {
@@ -52,7 +52,7 @@ angular.module('Auth',['Data','ionic', 'ngCordova',  'satellizer',  ])
                 firstname : '',
                 lastname : '',
                 picture: '',
-                gender: 'm',
+                gender: 'm'
             },
             providers : {
                 google : {
@@ -63,10 +63,21 @@ angular.module('Auth',['Data','ionic', 'ngCordova',  'satellizer',  ])
                     gmailFirstName : '',
                     gmailLastName : '',
                     gmailProfilePicture : '',
-                    lgmailGender : '',
+                    lgmailGender : ''
                 }
             }
         };
+
+
+        function findUserByEmail(email,cb,ob){
+
+            return User.findAll({email: email}).then(function (usr) {
+                cb(usr);
+            }).catch(function(err){
+                ob(err);
+            })
+
+        }
 
         return {
 
@@ -83,6 +94,7 @@ angular.module('Auth',['Data','ionic', 'ngCordova',  'satellizer',  ])
 
             save : function () {
                 $localstorage.setObject('user',user);
+                console.log("User saving OK");
             },
 
             googleLogin: function () {
@@ -128,7 +140,7 @@ angular.module('Auth',['Data','ionic', 'ngCordova',  'satellizer',  ])
                         gmailFirstName : data.given_name,
                         gmailLastName : data.family_name,
                         gmailProfilePicture : data.picture,
-                        gmailGender : data.gender,
+                        gmailGender : data.gender
                     }
                     save();
                 }
@@ -141,9 +153,16 @@ angular.module('Auth',['Data','ionic', 'ngCordova',  'satellizer',  ])
                          lastname : user.providers.google.gmailLastName,
                          email: user.providers.google.gmailEmail,
                          picture: user.providers.google.gmailProfilePicture,
-                         gender: user.providers.google.gmailGender,
-                     }
-                    save();
+                         gender: user.providers.google.gmailGender
+                     };
+                    findUserByEmail(user.data.email,function(usr){
+                        user.data.userid = usr.id;
+                        save();
+                        console.log('Login Process OK');
+                    },function(err){
+                        console.log('Login Process failed');
+                    });
+
 
                 }
 
@@ -316,16 +335,19 @@ angular.module('Auth',['Data','ionic', 'ngCordova',  'satellizer',  ])
 
     })
 
-    .controller('AuthCtrl',function ($scope, AuthSvc, $auth) {
+    .controller('AuthCtrl',function ($scope, AuthSvc, $auth,  OwnerSvc, $state) {
 
         $scope.login = function () {
 
 
-            if (ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
-                AuthSvc.googleLogin();
-            }else{
-                $auth.authenticate('google');
-            }
+            OwnerSvc.login($scope.username,$scope.password);
+
+            //if (ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
+            //    AuthSvc.googleLogin();
+            //}else{
+            //    $auth.authenticate('google');
+            //}
+            $state.go('main');
 
         }
 
