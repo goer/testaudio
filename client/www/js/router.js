@@ -1,7 +1,7 @@
 /**
  * Created by goer on 4/28/15.
  */
-angular.module('Router',['Auth'])
+angular.module('Router',['RoomModule','RoomsModule','Main'])
 
     .config(function ($stateProvider, $urlRouterProvider) {
 
@@ -26,6 +26,7 @@ angular.module('Router',['Auth'])
 
             .state('main', {
                 url: "/main",
+                cache: false,
                 views: {
                     'main': {
                         templateUrl: "tpl/main.html",
@@ -43,7 +44,7 @@ angular.module('Router',['Auth'])
                 views: {
                     'main': {
                         templateUrl: "tpl/addroom.html",
-                        controller: 'MainCtrl',
+                        controller: 'RoomsCtrl',
                     }
                 },
                 data: {
@@ -68,10 +69,11 @@ angular.module('Router',['Auth'])
 
             .state('room', {
                 url: "/room",
+
                 views: {
                     'main': {
                         templateUrl: "tpl/room.html",
-                        controller: 'MainCtrl',
+                        controller: 'RoomCtrl',
                     }
                 },
                 data: {
@@ -138,10 +140,11 @@ angular.module('Router',['Auth'])
 
             .state('members', {
                 url: "/members",
+                cache : false,
                 views: {
                     'main': {
                         templateUrl: "tpl/members.html",
-                        controller: 'MainCtrl',
+                        controller: 'MembersCtrl',
                     }
                 },
                 data: {
@@ -155,7 +158,7 @@ angular.module('Router',['Auth'])
                 views: {
                     'main': {
                         templateUrl: "tpl/memberdetail.html",
-                        controller: 'MainCtrl',
+                        controller: 'MemberDetailCtrl',
                     }
                 },
                 data: {
@@ -166,10 +169,11 @@ angular.module('Router',['Auth'])
 
             .state('addmember', {
                 url: "/addmember",
+                cache : false,
                 views: {
                     'main': {
                         templateUrl: "tpl/addmember.html",
-                        controller: 'MainCtrl',
+                        controller: 'AddMemberCtrl',
                     }
                 },
                 data: {

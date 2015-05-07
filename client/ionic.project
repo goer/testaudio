@@ -1,4 +1,10 @@
 {
   "name": "testaudio",
-  "app_id": "9b7986a0"
+  "app_id": "9b7986a0",
+  "proxies": [
+      {
+        "path": "/api",
+        "proxyUrl": "http://localhost:2403/"
+      }
+    ]
 }

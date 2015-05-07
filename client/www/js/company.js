@@ -1,9 +1,9 @@
 /**
  * Created by goer on 5/7/15.
  */
-angular.module('Company',['Data'])
+angular.module('CompanyModule',['Data'])
 
-.factory('CompanySvc',function(User){
+.factory('CompanySvc',function(User,Company){
 
         var company=null;
 
@@ -13,14 +13,14 @@ angular.module('Company',['Data'])
 
                 Company.find(owner.companyid).then(function(c){
                     company=c;
-                    cb(company);
+                    if(angular.isDefined(cb)) cb(company);
                 })
 
             },
 
             getUsers : function(){
 
-                return User.findall({companyid: company.id}, {bypassCache: true});
+                return User.findAll({companyid: company.id}, {bypassCache: true});
 
             },
 
@@ -38,38 +38,77 @@ angular.module('Company',['Data'])
     })
 
 
-    .factory('COwnerSvc',function(User,CompanySvc,Room,Member){
+    .factory('COwnerSvc',function($q,User,CompanySvc,Room,Member){
 
         var owner = null;
 
         return {
 
-            login : function(email,password,cb){
-                User.findAll({email:email, password:password}, {bypassCache: true},function(users){
-                    owner = users[0];
-                    CompanySvc.setCompanyByOwner(owner);
-                    cb(owner);
+            login : function(email,password){
+                var d = $q.defer();
+
+                console.log('Login email:'+email+' password:'+password);
+                User.findAll({email:email}, {bypassCache: true}).then(function(users){
+                    if(users.length>0) {
+                        owner = users[0];
+                        CompanySvc.setCompanyByOwner(owner);
+                        console.log('Login OK:' + JSON.stringify(owner));
+                        d.resolve(owner);
+                    }else{
+                        d.reject("Login Err: user not found")
+                        console.log("Login Err: user not found")
+                    }
+                }).catch(function(err){
+                    d.reject(err);
+                    console.log("Login Err:"+err)
                 })
+                return d.promise;
             },
 
             getOwner : function(){
-                return owner;
+                if(owner==null){
+                    return this.login('fonetix@gmail.com','goer1thea');
+                }
+                var d=$q.defer();
+                d.resolve(owner);
+                return d.promise;
             },
 
             getRooms : function(){
 
-                return Member.findAll(
-                    {userid: owner.id},
-                    {bypassCache: true}
-                );
+                var d = $q.defer();
+
+                if(owner==null){
+
+
+                    this.getOwner().then(function(owner){
+                        d.resolve(Member.findAll(
+                            {userid: owner.id},
+                            {bypassCache: true}
+                        ));
+                    })
+
+                }else {
+
+                    d.resolve(Member.findAll(
+                        {userid: owner.id},
+                        {bypassCache: true}
+                    ));
+
+                }
+
+                return d.promise;
 
 
             },
 
             addRoom : function(name) {
-
-                return Room.create({name: name, userid: owner.id});
-
+                console.log('Adding room:'+ name);
+                var d=$q.defer();
+                Room.create({name: name, userid: owner.id}).then(function(room){
+                    d.resolve(Member.create({roomid:room.id,userid: owner.id}));
+                })
+                return d.promise;
             },
 
             deleteRoom : function(id) {
@@ -89,9 +128,13 @@ angular.module('Company',['Data'])
 
         return {
 
+            getRoom : function(){
+                console.log('Reading Room:'+room.id);
+                return room;
+            },
 
             setRoom : function(r){
-
+                console.log('Setting Room:'+ r.id);
                 room = r
 
             },
@@ -131,5 +174,25 @@ angular.module('Company',['Data'])
 
         }
 
+
+    })
+
+
+    .factory('CUserSvc',function(){
+
+        var user=null;
+
+        return {
+
+            getUser : function(){
+                return user;
+            },
+            setUser : function(u){
+                user=u;
+            },
+
+
+
+        }
 
     })

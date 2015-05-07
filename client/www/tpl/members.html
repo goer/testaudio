@@ -12,13 +12,10 @@
         </ion-header-bar>
         <ion-content>
 
-            <ion-list>
+            <ion-list ng-repeat="m in data.members">
 
                 <ion-item>
-                    <p ui-sref="memberdetail">This is 1st user</p>
-                </ion-item>
-                <ion-item>
-                    <p>This is 2nd user</p>
+                    <p ng-click="goToUserDetail(m.user)">{{m.user.email}}</p>
                 </ion-item>
 
             </ion-list>
@@ -27,7 +24,7 @@
         </ion-content>
 
         <ion-footer-bar align-title="left" class="bar-stable">
-
+            <h1 class="title">Length {{data.members.length}}</h1>
         </ion-footer-bar>
 
     </ion-pane>

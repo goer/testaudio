@@ -1,11 +1,11 @@
-<ion-view title="Room">
+<ion-view title="Room: {{data.name}}">
     <ion-pane>
         <ion-header-bar class="bar-stable">
-            <h1 class="title">Room</h1>
+            <h1 class="title">Room: {{data.name}}</h1>
 
 
                 <button class="button" ui-sref="main">Done</button>
-                <button class="button" ui-sref="members">Members</button>
+                <button class="button" ng-click="goToMembers()">Members</button>
 
 
         </ion-header-bar>

@@ -12,13 +12,10 @@
         </ion-header-bar>
         <ion-content>
 
-            <ion-list>
+            <ion-list ng-repeat="u in data.users">
 
                 <ion-item>
-                    <p ui-sref="userdetail">This is 1st user</p>
-                </ion-item>
-                <ion-item>
-                    <p>This is 2nd user</p>
+                    <p ng-click="goToUserDetail(u)">{{u.email}}</p>
                 </ion-item>
 
             </ion-list>

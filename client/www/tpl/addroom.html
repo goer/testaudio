@@ -9,18 +9,18 @@
         </ion-header-bar>
         <ion-content>
 
-            <form ng-submit="login()">
+
                 <div class="list">
                     <label class="item item-input">
                         <span class="input-label">Room Name</span>
-                        <input type="text" ng-model="roomname">
+                        <input type="text" ng-model="data.roomname">
                     </label>
 
                     <label class="item">
-                        <button class="button button-block button-positive" type="submit">Update</button>
+                        <button class="button button-block button-positive" ng-click="addRoom()">Save</button>
                     </label>
                 </div>
-            </form>
+
 
         </ion-content>
     </ion-pane>

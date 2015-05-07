@@ -1,12 +1,12 @@
 /**
  * Created by goer on 5/7/15.
  */
-angular.module('Login',['Company'])
+angular.module('Login',['CompanyModule'])
     .controller('LoginCtrl',function($scope,COwnerSvc,$state){
 
         $scope.login = function(){
 
-            COwnerSvc.login($scope.username,$scope.password,function(owner){
+            COwnerSvc.login('fonetix@gmail.com','goer1thea',function(owner){
 
                 $state.go('main');
 

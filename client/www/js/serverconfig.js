@@ -6,7 +6,11 @@ angular.module('ServerConfig',[])
     .constant('ServerSvc',{
 
         baseUrl : function () {
-            return 'http://192.168.35.140:7070';
+            return 'http://localhost:2403/';
+        },
+
+        socketIOUrl : function() {
+            return 'http://localhost:7070/';
         }
 
     })

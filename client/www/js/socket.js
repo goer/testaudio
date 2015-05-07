@@ -5,7 +5,7 @@ angular.module('Socket',['ServerConfig'])
 
     .factory('$socket', function($rootScope,ServerSvc) {
 
-        var socket = io.connect(ServerSvc.baseUrl());
+        var socket = io.connect(ServerSvc.socketIOUrl());
         //var socket = io.connect('http://localhost:8080');
 
         return {
