@@ -11,7 +11,8 @@ angular.module('starter',
         'Audio',
         'Router',
         'User',
-        'Main'
+        'Main',
+        'Login'
     ]
 )
 

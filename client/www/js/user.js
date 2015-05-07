@@ -2,41 +2,7 @@
  * Created by goer on 5/5/15.
  */
 
-angular.module('User', ['ServerConfig','js-data'])
-
-    .config(function (DSProvider,ServerSvc) {
-        DSProvider.defaults.basePath = ServerSvc.baseUrl(); // etc.
-    })
-
-    .factory('Room', function (DS) {
-        return DS.defineResource('room');
-    })
-    .factory('User', function (DS) {
-        return DS.defineResource('myuser');
-    })
-    .factory('UserRelation', function (DS) {
-        return DS.defineResource('userrelation');
-    })
-    .factory('Message', function (DS) {
-        return DS.defineResource('message');
-    })
-    .factory('RoomUser', function (DS) {
-        return DS.defineResource({
-
-                name: 'roomuser',
-                relations: {
-                    belongsTo: {
-                        room: {
-                            localKey: 'roomid',
-                            localField: 'room'
-                        }
-                    }
-                }
-
-            }
-        );
-    })
-
+angular.module('User', ['Data'])
 
     .factory('FriendSvc', function (UserRelation, User) {
 
@@ -196,13 +162,25 @@ angular.module('User', ['ServerConfig','js-data'])
     .factory('RoomSvc', function (RoomUser, Room, Message, FriendSvc, OwnerSvc) {
 
         var ownerId;
-
+        var owner;
 
         var initOwner = function () {
 
             OwnerSvc.getOwner(function (o) {
                 ownerId = o;
             })
+
+        }
+
+        var getOwner = function () {
+
+            if(ownerId==null) {
+                OwnerSvc.getOwner(function(o){
+                    owner = o
+                })
+            }
+
+            return owner;
 
         }
 

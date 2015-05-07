@@ -13,7 +13,7 @@ angular.module('Router',['Auth'])
                 views: {
                     'main': {
                         templateUrl: "tpl/login.html",
-                        controller: 'AuthCtrl',
+                        controller: 'LoginCtrl',
                     }
                 },
                 data: {
@@ -164,6 +164,33 @@ angular.module('Router',['Auth'])
 
             })
 
+            .state('addmember', {
+                url: "/addmember",
+                views: {
+                    'main': {
+                        templateUrl: "tpl/addmember.html",
+                        controller: 'MainCtrl',
+                    }
+                },
+                data: {
+                    requireLogin: true
+                }
+
+            })
+
+            .state('messages', {
+                url: "/messages",
+                views: {
+                    'main': {
+                        templateUrl: "tpl/messages.html",
+                        controller: 'MainCtrl',
+                    }
+                },
+                data: {
+                    requireLogin: true
+                }
+
+            })
 
         $urlRouterProvider.otherwise('/login');
 

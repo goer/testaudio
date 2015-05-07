@@ -343,6 +343,7 @@ angular.module('Auth',['User','Data','ionic', 'ngCordova',  'satellizer',  ])
 
             OwnerSvc.login($scope.username,$scope.password,function(owner){
                 console.log('Login OK: owner:'+ JSON.stringify(owner));
+
                 $state.go('main');
             });
 
