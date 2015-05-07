@@ -1,0 +1,28 @@
+<ion-view title="Add User">
+    <ion-pane>
+        <ion-header-bar class="bar-stable">
+            <h1 class="title">Add User</h1>
+
+            <button class="button" ui-sref="users">Cancel</button>
+
+
+        </ion-header-bar>
+        <ion-content>
+
+            <form ng-submit="login()">
+                <div class="list">
+                    <label class="item item-input">
+                        <span class="input-label">User Email</span>
+                        <input type="text" ng-model="useremail">
+                    </label>
+
+                    <label class="item">
+                        <button class="button button-block button-positive" type="submit">Update</button>
+                    </label>
+                </div>
+            </form>
+
+        </ion-content>
+    </ion-pane>
+
+</ion-view>
