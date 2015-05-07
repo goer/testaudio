@@ -1,0 +1,28 @@
+<ion-view title="Add Room">
+    <ion-pane>
+        <ion-header-bar class="bar-stable">
+            <h1 class="title">Add Room</h1>
+
+                <button class="button" ui-sref="main">Cancel</button>
+                <button class="button" ui-sref="invitefriends">Invite</button>
+
+        </ion-header-bar>
+        <ion-content>
+
+            <form ng-submit="login()">
+                <div class="list">
+                    <label class="item item-input">
+                        <span class="input-label">Room Name</span>
+                        <input type="text" ng-model="roomname">
+                    </label>
+
+                    <label class="item">
+                        <button class="button button-block button-positive" type="submit">Update</button>
+                    </label>
+                </div>
+            </form>
+
+        </ion-content>
+    </ion-pane>
+
+</ion-view>

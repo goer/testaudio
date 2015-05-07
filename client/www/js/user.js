@@ -264,7 +264,7 @@ angular.module('User', ['ServerConfig','js-data'])
             $localstorage.setObject('owner',owner);
         }
 
-        var login = function (userName, password) {
+        var login = function (userName, password,cb,ob) {
 
             console.log('try login: '+userName)
 
@@ -273,6 +273,8 @@ angular.module('User', ['ServerConfig','js-data'])
                 username : 'goer',
                 email: 'fonetix@gmail.com'
             }
+
+            cb(owner);
 
             return owner;
 

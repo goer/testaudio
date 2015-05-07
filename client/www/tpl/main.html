@@ -1,30 +1,33 @@
-<ion-view title="Main">
+<ion-view title="Rooms">
     <ion-pane>
         <ion-header-bar class="bar-stable">
-            <h1 class="title">Ionic Blank Starter</h1>
+            <h1 class="title">Rooms</h1>
 
-            <div ng-controller="AuthCtrl">
+
                 <div class="buttons">
-                    <button class="button" ng-click="login()">Login</button>
+                    <button class="button" ui-sref="addroom">Add Room</button>
                 </div>
-            </div>
+
+
         </ion-header-bar>
         <ion-content>
+
+            <ion-list>
+
+                <ion-item>
+                    <p ui-sref="room">This is 1st group</p>
+                </ion-item>
+                <ion-item>
+                    <p>This is 2nd group</p>
+                </ion-item>
+
+            </ion-list>
 
 
         </ion-content>
 
         <ion-footer-bar align-title="left" class="bar-stable">
             <h1 class="title">Status: {{status}}</h1>
-
-            <div class="buttons">
-                <button class="button" on-hold="startRecord()" on-release="stopRecord()">Record</button>
-            </div>
-
-            <div class="buttons">
-                <button class="button" ng-click="playRecord()">Play</button>
-            </div>
-        </ion-footer-bar>
-
+            <button class="button" ui-sref="settings">Settings</button>
     </ion-pane>
 </ion-view>

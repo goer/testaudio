@@ -3,7 +3,17 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'ngCordova', 'Auth', 'Audio', 'Router','User'])
+angular.module('starter',
+    [
+        'ionic',
+        'ngCordova',
+        'Auth',
+        'Audio',
+        'Router',
+        'User',
+        'Main'
+    ]
+)
 
 
 
@@ -23,18 +33,19 @@ angular.module('starter', ['ionic', 'ngCordova', 'Auth', 'Audio', 'Router','User
 
                 console.log("Check Login");
 
-                var requireLogin = toState.data.requireLogin;
+            //    var requireLogin = toState.data.requireLogin;
+            //
+            //    if (requireLogin) {
+            //        event.preventDefault();
+            //        // get me a login modal!
+            //        if(!OwnerSvc.isLogin()){
+            //            console.log("must log in first");
+            //            $state.go('login');
+            //        }
+            //    }else{
+            //        console.log("Free")
+            //    }
 
-                if (requireLogin) {
-                    event.preventDefault();
-                    // get me a login modal!
-                    if(!OwnerSvc.isLogin()){
-                        console.log("must log in first");
-                        $state.go('login');
-                    }
-                }else{
-                    console.log("Free")
-                }
             });
 
 

@@ -7,6 +7,7 @@ angular.module('Router',['Auth'])
 
         $stateProvider
 
+
             .state('login', {
                 url: "/login",
                 views: {
@@ -21,12 +22,56 @@ angular.module('Router',['Auth'])
 
             })
 
+
+
             .state('main', {
                 url: "/main",
                 views: {
                     'main': {
                         templateUrl: "tpl/main.html",
-                        controller: 'AudioCtrl',
+                        controller: 'MainCtrl',
+                    }
+                },
+                data: {
+                    requireLogin: true
+                }
+
+            })
+
+            .state('addroom', {
+                url: "/addroom",
+                views: {
+                    'main': {
+                        templateUrl: "tpl/addroom.html",
+                        controller: 'MainCtrl',
+                    }
+                },
+                data: {
+                    requireLogin: true
+                }
+
+            })
+
+            .state('invitefriends', {
+                url: "/invitefriends",
+                views: {
+                    'main': {
+                        templateUrl: "tpl/invitefriends.html",
+                        controller: 'MainCtrl',
+                    }
+                },
+                data: {
+                    requireLogin: true
+                }
+
+            })
+
+            .state('room', {
+                url: "/room",
+                views: {
+                    'main': {
+                        templateUrl: "tpl/room.html",
+                        controller: 'MainCtrl',
                     }
                 },
                 data: {

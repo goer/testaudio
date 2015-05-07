@@ -339,15 +339,18 @@ angular.module('Auth',['User','Data','ionic', 'ngCordova',  'satellizer',  ])
 
         $scope.login = function () {
 
+            console.log('AuthCtrl login')
 
-            OwnerSvc.login($scope.username,$scope.password);
+            OwnerSvc.login($scope.username,$scope.password,function(owner){
+                console.log('Login OK: owner:'+ JSON.stringify(owner));
+                $state.go('main');
+            });
 
             //if (ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
             //    AuthSvc.googleLogin();
             //}else{
             //    $auth.authenticate('google');
             //}
-            $state.go('main');
 
         }
 
