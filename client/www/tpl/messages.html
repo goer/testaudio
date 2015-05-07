@@ -6,19 +6,13 @@
 
             <button class="button" ui-sref="room">Done</button>
 
-
-
-
         </ion-header-bar>
         <ion-content>
 
-            <ion-list>
+            <ion-list ng-repeat="m in data.messages">
 
                 <ion-item>
-                    <p>This is 1st user</p>
-                </ion-item>
-                <ion-item>
-                    <p>This is 2nd user</p>
+                    <p ng-click="playMessageContent(m)">{{m.getContent()}}</p>
                 </ion-item>
 
             </ion-list>

@@ -8,6 +8,7 @@
     "ngCordova": "~0.1.14-alpha",
     "js-data": "~1.8.0",
     "js-data-angular": "~2.4.0",
-    "satellizer": "~0.10.1"
+    "satellizer": "~0.10.1",
+    "angular-translate": "~2.7.0"
   }
 }
