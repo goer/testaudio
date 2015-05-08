@@ -8,17 +8,42 @@
         </ion-header-bar>
         <ion-content>
 
+            <form ng-submit="updateUser()">
+
             <ion-list>
 
                 <ion-item>
-                    <p>This is 1st group</p>
+                    <span class="input-label">First Name</span>
+                    <input type="text" ng-model="data.user.firstname">
                 </ion-item>
+
                 <ion-item>
-                    <p>This is 2nd group</p>
+                    <span class="input-label">Last Name</span>
+                    <input type="text" ng-model="data.user.lastname">
                 </ion-item>
+
+                <ion-item>
+                    <span class="input-label">User Name</span>
+                    <input type="text" ng-model="data.user.username">
+                </ion-item>
+
+                <ion-item>
+                    <span class="input-label">Gender</span>
+                    <input type="text" ng-model="data.user.gender">
+                </ion-item>
+
+                <ion-item>
+                    <span class="input-label">Email</span>
+                    <input type="text" ng-model="data.user.email">
+                </ion-item>
+
+                <label class="item">
+                    <button class="button button-block button-positive" type="submit">Update</button>
+                </label>
 
             </ion-list>
 
+            </form>
 
         </ion-content>
 

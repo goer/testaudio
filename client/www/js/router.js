@@ -1,7 +1,7 @@
 /**
  * Created by goer on 4/28/15.
  */
-angular.module('Router',['RoomModule','RoomsModule','Main'])
+angular.module('Router',['RoomModule','RoomsModule','Main','UserCtrlModule'])
 
     .config(function ($stateProvider, $urlRouterProvider) {
 
@@ -98,10 +98,11 @@ angular.module('Router',['RoomModule','RoomsModule','Main'])
 
             .state('users', {
                 url: "/users",
+                cache: false,
                 views: {
                     'main': {
                         templateUrl: "tpl/users.html",
-                        controller: 'MainCtrl',
+                        controller: 'UsersCtrl',
                     }
                 },
                 data: {
@@ -115,7 +116,7 @@ angular.module('Router',['RoomModule','RoomsModule','Main'])
                 views: {
                     'main': {
                         templateUrl: "tpl/adduser.html",
-                        controller: 'MainCtrl',
+                        controller: 'UsersCtrl',
                     }
                 },
                 data: {
@@ -126,10 +127,11 @@ angular.module('Router',['RoomModule','RoomsModule','Main'])
 
             .state('userdetail', {
                 url: "/userdetail",
+                cache: false,
                 views: {
                     'main': {
                         templateUrl: "tpl/userdetail.html",
-                        controller: 'MainCtrl',
+                        controller: 'UserDetailCtrl',
                     }
                 },
                 data: {

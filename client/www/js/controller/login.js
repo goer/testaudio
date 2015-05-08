@@ -6,7 +6,7 @@ angular.module('Login',['CompanyModule'])
 
         $scope.login = function(){
 
-            COwnerSvc.login('fonetix@gmail.com','goer1thea',function(owner){
+            COwnerSvc.login('fonetix@gmail.com','goer1thea').then(function(owner){
 
                 $state.go('main');
 

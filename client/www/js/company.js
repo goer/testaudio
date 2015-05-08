@@ -178,7 +178,7 @@ angular.module('CompanyModule',['Data'])
     })
 
 
-    .factory('CUserSvc',function(){
+    .factory('CUserSvc',function(User){
 
         var user=null;
 
@@ -190,7 +190,9 @@ angular.module('CompanyModule',['Data'])
             setUser : function(u){
                 user=u;
             },
-
+            save : function(){
+                return User.update(user)
+            },
 
 
         }
