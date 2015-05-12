@@ -1,0 +1,69 @@
+{
+	"type": "Collection",
+	"properties": {
+		"userid": {
+			"name": "userid",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "userid",
+			"order": 0
+		},
+		"token": {
+			"name": "token",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "token",
+			"order": 1
+		},
+		"gmailid": {
+			"name": "gmailid",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "gmailid",
+			"order": 2
+		},
+		"email": {
+			"name": "email",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "email",
+			"order": 3
+		},
+		"firstname": {
+			"name": "firstname",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "firstname",
+			"order": 4
+		},
+		"lastname": {
+			"name": "lastname",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "lastname",
+			"order": 5
+		},
+		"picture": {
+			"name": "picture",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "picture",
+			"order": 6
+		},
+		"gender": {
+			"name": "gender",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "gender",
+			"order": 7
+		}
+	}
+}

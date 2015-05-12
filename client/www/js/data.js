@@ -31,6 +31,9 @@ angular.module('Data',['js-data','ServerConfig'])
     .factory('User', function (DS) {
         return DS.defineResource('myuser');
     })
+    .factory('DeviceToken', function (DS) {
+        return DS.defineResource('devicetoken');
+    })
     .factory('Company', function (DS) {
         return DS.defineResource('company');
     })
@@ -42,6 +45,10 @@ angular.module('Data',['js-data','ServerConfig'])
     })
     .factory('Message', function (DS) {
         return DS.defineResource('message');
+    })
+    .factory('MessageAudio', function (DS,ServerSvc) {
+        DS.basePath = ServerSvc.audioMessage();
+        return DS.defineResource('api/audio/messageaudio');
     })
     .factory('RoomUser', function (DS) {
         return DS.defineResource({

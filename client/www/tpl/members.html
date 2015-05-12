@@ -16,6 +16,7 @@
 
                 <ion-item>
                     <p ng-click="goToUserDetail(m.user)">{{m.user.email}}</p>
+                    <ion-option-button class="button-assertive" ng-click="deleteMember(m.id)">Delete</ion-option-button>
                 </ion-item>
 
             </ion-list>

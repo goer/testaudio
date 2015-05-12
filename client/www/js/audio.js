@@ -1,7 +1,7 @@
 /**
  * Created by goer on 4/30/15.
  */
-angular.module('Audio',['ngCordova','Auth','ServerConfig','Socket','Data'])
+angular.module('Audio', ['ngCordova', 'Socket', 'Data', 'CompanyModule'])
 
 /**
  * Record service
@@ -10,10 +10,8 @@ angular.module('Audio',['ngCordova','Auth','ServerConfig','Socket','Data'])
  * @class famvoice
  */
     .factory('$record',
-    function(
-        $rootScope,
-        Message
-    ) {
+    function ($rootScope,
+              Message) {
 
         var enumerator = 0;
         var recordName = 'temp.wav';
@@ -26,13 +24,13 @@ angular.module('Audio',['ngCordova','Auth','ServerConfig','Socket','Data'])
          *
          * @method startRecord
          */
-        function startRecord(){
+        function startRecord() {
             enumerator++;
             recordName = 'temp.wav';
             mediaRec = new Media(recordName,
-                function() {
+                function () {
                 },
-                function(err) {
+                function (err) {
                 });
             mediaRec.startRecord();
         }
@@ -42,7 +40,7 @@ angular.module('Audio',['ngCordova','Auth','ServerConfig','Socket','Data'])
          *
          * @method stopRecord
          */
-        function stopRecord(){
+        function stopRecord() {
             mediaRec.stopRecord();
         }
 
@@ -51,7 +49,7 @@ angular.module('Audio',['ngCordova','Auth','ServerConfig','Socket','Data'])
          *
          * @method stopRecord
          */
-        function playRecord(){
+        function playRecord() {
             mediaRec.play();
         }
 
@@ -60,7 +58,7 @@ angular.module('Audio',['ngCordova','Auth','ServerConfig','Socket','Data'])
          *
          * @method getRecord
          */
-        function getRecord(){
+        function getRecord() {
             return recordName;
         }
 
@@ -69,7 +67,7 @@ angular.module('Audio',['ngCordova','Auth','ServerConfig','Socket','Data'])
          *
          * @method save
          */
-        function save(callback,appendData){
+        function save(callback, appendData) {
             OnCallback = callback;
             OnAppendData = appendData;
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, OnFileSystem, fail);
@@ -80,7 +78,7 @@ angular.module('Audio',['ngCordova','Auth','ServerConfig','Socket','Data'])
          *
          * @method OnFileSystem
          */
-        function OnFileSystem(fileSystem){
+        function OnFileSystem(fileSystem) {
             fileSystem.root.getFile(recordName, null, OnGetFile, fail);
         }
 
@@ -89,7 +87,7 @@ angular.module('Audio',['ngCordova','Auth','ServerConfig','Socket','Data'])
          *
          * @method OnGetFile
          */
-        function OnGetFile(fileEntry){
+        function OnGetFile(fileEntry) {
             fileEntry.file(OnFileEntry, fail);
         }
 
@@ -98,14 +96,14 @@ angular.module('Audio',['ngCordova','Auth','ServerConfig','Socket','Data'])
          *
          * @method OnFileEntry
          */
-        function OnFileEntry(file){
+        function OnFileEntry(file) {
             var reader = new FileReader();
-            reader.onloadend = function(evt) {
+            reader.onloadend = function (evt) {
 
                 var image = evt.target.result;
                 //console.log(image);
-                var base64Data  =   image.replace(/^data:audio\/x-wav;base64,/, "");
-                base64Data  +=  base64Data.replace('+', ' ');
+                var base64Data = image.replace(/^data:audio\/x-wav;base64,/, "");
+                base64Data += base64Data.replace('+', ' ');
 
                 //$socket.emit(
                 //  'playlists:file',
@@ -132,7 +130,7 @@ angular.module('Audio',['ngCordova','Auth','ServerConfig','Socket','Data'])
          *
          * @method OnFileEntry
          */
-        function fail(err){
+        function fail(err) {
             console.log('Error');
             console.log(err);
         }
@@ -142,20 +140,20 @@ angular.module('Audio',['ngCordova','Auth','ServerConfig','Socket','Data'])
          *
          * @method playRecord
          */
-        function playRecord(){
+        function playRecord() {
             var mediaFile = new Media(recordName,
-                function() {
+                function () {
                     console.log("playAudio():Audio Success");
                 },
-                function(err) {
-                    console.log("playAudio():Audio Error: "+err);
+                function (err) {
+                    console.log("playAudio():Audio Error: " + err);
                 }
             );
             // Play audio
             mediaFile.play();
         }
 
-        function  playBase64(base64Data){
+        function playBase64(base64Data) {
 
             var snd = new Audio("data:audio/wav;base64," + base64string);
             snd.play();
@@ -165,85 +163,152 @@ angular.module('Audio',['ngCordova','Auth','ServerConfig','Socket','Data'])
         return {
             start: startRecord,
             stop: stopRecord,
-            play:playRecord,
-            name:getRecord,
-            save:save
+            play: playRecord,
+            name: getRecord,
+            save: save
         };
     })
 
 
-    .controller('AudioCtrl', function(
-        $socket,
-        $scope,
-        $cordovaCapture,
-        $record,
-        $cordovaMedia,
-        Message,
-        AuthSvc,
-        ServerSvc
-    ){
+    .factory('AudioSvc', function ($record, ServerSvc, CRoomSvc, COwnerSvc, MessageAudio, Message, $socket) {
 
 
-        $scope.googleLogin = AuthSvc.googleLogin;
+        return {
 
-        $socket.emit('ready',
-            { roomid: 'def1235a029da8a5', userid: '0d8a22ad48da8af5' }
-        )
+            playSound: function (soundid) {
 
-        $socket.on('connected',function(data){
-            $scope.status = data.status+":"+data.message;
-        })
+                var url = ServerSvc.audioServer() + '/' + soundid;
+                console.log("playRecord"+url);
+                var snd = new Audio(url);
+                snd.play();
+
+            },
+
+            startRecord: function () {
+                console.log("startRecord");
+                $record.start();
+            },
 
 
+            stopRecord: function () {
 
-        $scope.startRecord = function(){
-            console.log("startRecord");
-            $record.start();
+                console.log("stopRecord");
+                $record.stop();
+                $record.save(function (base64Data) {
+
+                    var amsg = {
+                        roomid: CRoomSvc.getRoom().id,
+                        userid: COwnerSvc.getOwner().id,
+
+                        typeid: 2
+
+                    };
+                    
+                    console.log("Sending sound base64 size:" + base64Data.length + ' msg:' + JSON.stringify(amsg));
+                    amsg.content = base64Data;
+                    MessageAudio.create(amsg).then(function (msg) {
+
+                        console.log("Receive audio msg URL:" + JSON.stringify(msg));
+
+                        // Message.create({
+                        //     roomid: CRoomSvc.getRoom().id,
+                        //     userid: COwnerSvc.getOwner().id,
+                        //     content: msg.content,
+                        //     typeid: 2
+
+                        // }).then(function (m) {
+
+                        //     //console.log("sending message:" + m);
+                        //     //$socket.emit('message', m);
 
 
-        }
-        $scope.stopRecord = function () {
+                        // })
 
-            console.log("stopRecord");
-            $record.stop();
-            //$scope.playRecord();
-            $record.save(function (base64Data) {
 
-                console.log("Sending sound base64");
-
-                Message.create({
-                    roomid: 'def1235a029da8a5',
-                    userid: '0d8a22ad48da8af5',
-                    content: base64Data,
-                    typeid: 2
-                }).then(function (msg) {
-
-                    //console.log("Audio Message Saved: "+base64Data);
-                    console.log("msgid:" + msg.id);
-                    console.log("audioid:" + msg.content);
-                    $scope.audioUrl = ServerSvc.baseUrl()+'/audio/' + msg.content;
-
-                    //$scope.playRecord();
-
+                    });
+                    
                 });
-            });
+
+
+            }
+
 
         }
-
-        $socket.on('audio',function(data){
-            console.log("receive audioid:"+data.audioid);
-            $scope.audioUrl = ServerSvc.baseUrl()+'/audio/'+data.audioid;
-            $scope.playRecord();
-        })
-
-        $scope.playRecord = function(){
-
-            console.log("playRecord");
-
-            var snd = new Audio($scope.audioUrl);
-            snd.play();
-
-        }
-
 
     })
+
+//.controller('AudioCtrl', function(
+//    $socket,
+//    $scope,
+//    $cordovaCapture,
+//    $record,
+//    $cordovaMedia,
+//    Message,
+//    AuthSvc,
+//    ServerSvc
+//){
+//
+//
+//    $scope.googleLogin = AuthSvc.googleLogin;
+//
+//    $socket.emit('ready',
+//        { roomid: 'def1235a029da8a5', userid: '0d8a22ad48da8af5' }
+//    )
+//
+//    $socket.on('connected',function(data){
+//        $scope.status = data.status+":"+data.message;
+//    })
+//
+//
+//
+//    $scope.startRecord = function(){
+//        console.log("startRecord");
+//        $record.start();
+//
+//
+//    }
+//    $scope.stopRecord = function () {
+//
+//        console.log("stopRecord");
+//        $record.stop();
+//        //$scope.playRecord();
+//        $record.save(function (base64Data) {
+//
+//            console.log("Sending sound base64");
+//
+//            Message.create({
+//                roomid: 'def1235a029da8a5',
+//                userid: '0d8a22ad48da8af5',
+//                content: base64Data,
+//                typeid: 2
+//            }).then(function (msg) {
+//
+//                //console.log("Audio Message Saved: "+base64Data);
+//                console.log("msgid:" + msg.id);
+//                console.log("audioid:" + msg.content);
+//                $scope.audioUrl = ServerSvc.baseUrl()+'/audio/' + msg.content;
+//
+//                //$scope.playRecord();
+//
+//            });
+//        });
+//
+//    }
+//
+//    $socket.on('audio',function(data){
+//        console.log("receive audioid:"+data.audioid);
+//        $scope.audioUrl = ServerSvc.baseUrl()+'/audio/'+data.audioid;
+//        $scope.playRecord();
+//    })
+//
+//    $scope.playRecord = function(){
+//
+//        console.log("playRecord");
+//
+//        var snd = new Audio($scope.audioUrl);
+//        snd.play();
+//
+//    }
+//
+//
+//})

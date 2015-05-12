@@ -1,0 +1,37 @@
+{
+	"type": "Collection",
+	"properties": {
+		"userid": {
+			"name": "userid",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "userid",
+			"order": 0
+		},
+		"lat": {
+			"name": "lat",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "lat",
+			"order": 1
+		},
+		"lon": {
+			"name": "lon",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "lon",
+			"order": 2
+		},
+		"time": {
+			"name": "time",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "time",
+			"order": 3
+		}
+	}
+}

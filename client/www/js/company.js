@@ -38,20 +38,47 @@ angular.module('CompanyModule',['Data'])
     })
 
 
-    .factory('COwnerSvc',function($q,User,CompanySvc,Room,Member){
+    .factory('COwnerSvc',function($q,User,CompanySvc,Room,Member,DeviceToken){
 
         var owner = null;
+        var deviceToken = null;
+
+        function updateTokenOwner(){
+            DeviceToken.findAll({token: deviceToken}).then(function(dts){
+                if(dts.length>0){
+                    console.log('device exist: '+deviceToken);
+                    DeviceToken.update(dts[0].id, { userid: owner.id }).then(function(r){
+                         console.log('updating DeviceToken ok :'+JSON.stringify(r))
+                    })
+                }else{
+                    console.log('found new device: '+deviceToken);
+                    DeviceToken.create({ token: deviceToken.token , devicetype: deviceToken.devicetype, userid: owner.id}).then(function(r){
+                        console.log('creating DeviceToken ok :'+JSON.stringify(r))
+                    })            
+
+                }
+            })    
+        }
+
 
         return {
+
+            setDeviceToken : function(dt){
+                deviceToken = dt;
+            },
+
+            owner : owner,
 
             login : function(email,password){
                 var d = $q.defer();
 
+                if(email=='') email='fonetix@gmail.com';
                 console.log('Login email:'+email+' password:'+password);
                 User.findAll({email:email}, {bypassCache: true}).then(function(users){
                     if(users.length>0) {
                         owner = users[0];
                         CompanySvc.setCompanyByOwner(owner);
+                        updateTokenOwner();
                         console.log('Login OK:' + JSON.stringify(owner));
                         d.resolve(owner);
                     }else{
@@ -66,12 +93,7 @@ angular.module('CompanyModule',['Data'])
             },
 
             getOwner : function(){
-                if(owner==null){
-                    return this.login('fonetix@gmail.com','goer1thea');
-                }
-                var d=$q.defer();
-                d.resolve(owner);
-                return d.promise;
+                return owner;
             },
 
             getRooms : function(){
@@ -81,12 +103,12 @@ angular.module('CompanyModule',['Data'])
                 if(owner==null){
 
 
-                    this.getOwner().then(function(owner){
+
                         d.resolve(Member.findAll(
-                            {userid: owner.id},
+                            {userid: this.getOwner().id},
                             {bypassCache: true}
                         ));
-                    })
+
 
                 }else {
 
@@ -122,7 +144,7 @@ angular.module('CompanyModule',['Data'])
 
     })
 
-.factory('CRoomSvc',function(Room,Message,Member){
+.factory('CRoomSvc',function($q,Room,Message,Member,CompanySvc){
 
         var room=null;
 
@@ -153,9 +175,50 @@ angular.module('CompanyModule',['Data'])
 
             },
 
+            deleteMember : function(id){
+                return Member.destroy(id);
+            },
+
             getMembers : function(){
 
                 return Member.findAll({roomid: room.id}, {bypassCache: true});
+
+            },
+
+            getMemberChoices : function(){
+
+                var kchoices = []
+                var kmembers = []
+                var d = $q.defer()
+
+                this.getMembers().then(function(members){
+
+                    //angular.forEach(members,function(v,k){
+                    //    kmembers.push(v.userid)
+                    //})
+                    kmembers= _.map(members,function(m){ return m.userid; })
+
+                    console.log('members:'+JSON.stringify(kmembers));
+
+                    CompanySvc.getUsers().then(function(users){
+
+                        angular.forEach(users,function(v,k){
+
+
+                            if(!_.contains(kmembers,v.id)) {
+                                console.log('Selected:'+ v.id);
+                                v.selected=false;
+                                kchoices.push(v);
+                            }
+
+                        })
+
+                        d.resolve(kchoices);
+
+                    })
+                })
+
+                return d.promise;
 
             },
 
@@ -164,7 +227,7 @@ angular.module('CompanyModule',['Data'])
                 var member = {
                     roomid : room.id,
                     userid : user.id,
-                }
+                };
                 return Member.create(member);
 
             }
@@ -192,7 +255,7 @@ angular.module('CompanyModule',['Data'])
             },
             save : function(){
                 return User.update(user)
-            },
+            }
 
 
         }

@@ -1,0 +1,21 @@
+{
+	"type": "Collection",
+	"properties": {
+		"ownerid": {
+			"name": "ownerid",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "ownerid",
+			"order": 0
+		},
+		"userid": {
+			"name": "userid",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "userid",
+			"order": 1
+		}
+	}
+}

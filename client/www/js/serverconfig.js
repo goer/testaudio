@@ -5,12 +5,22 @@ angular.module('ServerConfig',[])
 
     .constant('ServerSvc',{
 
+        base : 'http://52.5.248.238:7070/',
+
         baseUrl : function () {
-            return 'http://localhost:2403/';
+            return this.base;
         },
 
         socketIOUrl : function() {
-            return 'http://localhost:7070/';
+            return this.base;
+        },
+
+        audioServer : function() {
+            return this.base+'audio';
+        },
+
+        audioMessage : function() {
+            return this.base;
         }
 
     })

@@ -1,0 +1,29 @@
+{
+	"type": "Collection",
+	"properties": {
+		"roomid": {
+			"name": "roomid",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "roomid",
+			"order": 0
+		},
+		"userid": {
+			"name": "userid",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "userid",
+			"order": 1
+		},
+		"statusid": {
+			"name": "statusid",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "statusid",
+			"order": 2
+		}
+	}
+}

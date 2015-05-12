@@ -12,13 +12,14 @@ angular.module('starter',
         'Router',
         'User',
         'Main',
-        'Login'
+        'Login',
+        'PushModule'
     ]
 )
 
 
 
-    .run(function ($ionicPlatform, $rootScope,  $state, OwnerSvc) {
+    .run(function ($ionicPlatform, $rootScope,  $state, OwnerSvc, PushSvc) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -48,6 +49,10 @@ angular.module('starter',
             //    }
 
             });
+
+            if(ionic.Platform.isAndroid()){
+                PushSvc.android();
+            }
 
 
         });

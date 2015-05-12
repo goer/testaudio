@@ -4,8 +4,8 @@
             <h1 class="title">Add Member</h1>
 
 
-            <button class="button" ui-sref="members">Done</button>
-
+            <button class="button" ui-sref="members">Cancel</button>
+            <button class="button" ng-click="addMembers()">Add</button>
 
 
 
@@ -15,7 +15,7 @@
             <ion-list ng-repeat="u in data.users">
 
                 <ion-item>
-                    <p ng-click="goToUserDetail(u)">{{u.email}}</p>
+                    <ion-checkbox ng-model="u.selected">{{u.email}}</ion-checkbox>
                 </ion-item>
 
             </ion-list>

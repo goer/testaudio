@@ -1,9 +1,9 @@
 /**
  * Created by goer on 5/6/15.
  */
-angular.module('RoomModule', ['CompanyModule'])
+angular.module('RoomModule', ['CompanyModule','Audio'])
 
-    .controller('RoomCtrl', function ($scope, $state, $stateParams, CRoomSvc) {
+    .controller('RoomCtrl', function ($scope, $state, $stateParams, CRoomSvc, AudioSvc) {
 
         $scope.data = {
 
@@ -15,6 +15,9 @@ angular.module('RoomModule', ['CompanyModule'])
         $scope.goToMembers = function () {
             $state.go('members');
         }
+
+        $scope.startRecord = AudioSvc.startRecord;
+        $scope.stopRecord = AudioSvc.stopRecord;
 
 
     })
@@ -28,16 +31,25 @@ angular.module('RoomModule', ['CompanyModule'])
 
         }
 
-        CRoomSvc.getMembers().then(function (members) {
-            $scope.data.members = members;
-            console.log('members size:' + members.length);
-        })
+        function listMembers() {
+            CRoomSvc.getMembers().then(function (members) {
+                $scope.data.members = members;
+                console.log('members size:' + members.length);
+            })
+        }
+        listMembers();
 
         $scope.goToUserDetail = function(user){
 
             CUserSvc.setUser(user);
             $state.go('memberdetail');
 
+        }
+
+        $scope.deleteMember = function(id){
+            CRoomSvc.deleteMember(id).then(function(){
+                listMembers();
+            });
         }
 
     })
@@ -52,16 +64,40 @@ angular.module('RoomModule', ['CompanyModule'])
 
     })
 
-    .controller('AddMemberCtrl', function ($scope, $state, $stateParams, CompanySvc) {
+    .controller('AddMemberCtrl', function ($q, $scope, $state, $stateParams, CRoomSvc, CompanySvc) {
 
 
         $scope.data = {
             users : [],
         }
 
-        CompanySvc.getUsers().then(function(users){
+        CRoomSvc.getMemberChoices().then(function(users){
             $scope.data.users = users;
         })
+
+        function execAddMembers(){
+            var d=$q.defer();
+            angular.forEach($scope.data.users,function(v,k){
+                if(v.selected) {
+                    CRoomSvc.addMember(v).then(function(){
+                        d.resolve(false)
+                    })
+                }
+            })
+            d.resolve(true);
+
+            return d.promise;
+        }
+
+        $scope.addMembers = function(){
+
+                execAddMembers().then(function(s){
+                    if(s)
+                        $state.go('members');
+                })
+        }
+
+
 
     })
 

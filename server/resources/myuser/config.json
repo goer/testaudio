@@ -1,0 +1,101 @@
+{
+	"type": "Collection",
+	"properties": {
+		"username": {
+			"name": "username",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "username",
+			"order": 0
+		},
+		"password": {
+			"name": "password",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "password",
+			"order": 1
+		},
+		"email": {
+			"name": "email",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "email",
+			"order": 2
+		},
+		"gender": {
+			"name": "gender",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "gender",
+			"order": 3
+		},
+		"picture": {
+			"name": "picture",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "picture",
+			"order": 4
+		},
+		"statusid": {
+			"name": "statusid",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "statusid",
+			"order": 5
+		},
+		"islogin": {
+			"name": "islogin",
+			"type": "boolean",
+			"typeLabel": "boolean",
+			"required": false,
+			"id": "islogin",
+			"order": 6
+		},
+		"firstname": {
+			"name": "firstname",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "firstname",
+			"order": 7
+		},
+		"lastname": {
+			"name": "lastname",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "lastname",
+			"order": 8
+		},
+		"companyid": {
+			"name": "companyid",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "companyid",
+			"order": 9
+		},
+		"divisionid": {
+			"name": "divisionid",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "divisionid",
+			"order": 10
+		},
+		"isCreator": {
+			"name": "isCreator",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "isCreator",
+			"order": 11
+		}
+	}
+}
