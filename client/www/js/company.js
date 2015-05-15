@@ -44,7 +44,7 @@ angular.module('CompanyModule',['Data'])
         var deviceToken = null;
 
         function updateTokenOwner(){
-            DeviceToken.findAll({token: deviceToken}).then(function(dts){
+            DeviceToken.findAll({token: deviceToken.token}).then(function(dts){
                 if(dts.length>0){
                     console.log('device exist: '+deviceToken);
                     DeviceToken.update(dts[0].id, { userid: owner.id }).then(function(r){
@@ -64,6 +64,7 @@ angular.module('CompanyModule',['Data'])
         return {
 
             setDeviceToken : function(dt){
+                console.log('Set Device Token:'+ JSON.stringify(dt));
                 deviceToken = dt;
             },
 

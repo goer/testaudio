@@ -8,20 +8,24 @@ angular.module('PushModule',['CompanyModule','Audio'])
 
 
 					var androidConfig = {
-				    	"senderID": "AIzaSyD2AQDi6a0TPX-kGnbyFbj4VF3WrmwVpj8",
+				    	"senderID": "605107324350",
 				  	};
 
 				    $cordovaPush.register(androidConfig).then(function(result) {
 				      // Success
-				      console.log("try Register ok")
+				      console.log("try Register ok: "+JSON.stringify(result))
 				    }, function(err) {
 				      // Error
 				      console.log("try Register error")
 				    })
 
+				    //pushNotificationReceived	
+				    //$cordovaPush:notificationReceived
 				    $rootScope.$on(
 				    	'$cordovaPush:notificationReceived', 
 				    	function(event, notification) {
+
+				       console.log('Receive Notif:'+JSON.stringify(notification))			
 
 				      switch(notification.event) {
 				        case 'registered':
