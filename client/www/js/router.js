@@ -189,7 +189,7 @@ angular.module('Router',['RoomModule','RoomsModule','Main','UserCtrlModule'])
                 views: {
                     'main': {
                         templateUrl: "tpl/messages.html",
-                        controller: 'MainCtrl',
+                        controller: 'MessagesCtrl',
                     }
                 },
                 data: {

@@ -30,12 +30,15 @@ app.post('/api/audio/messageaudio', function(req, res) {
 	var uuid = require('uuid');
 	var data = req.body;
 	var m={ id:uuid.v4(), statusid:200, roomid: data.roomid,   typeid: 2, userid: data.userid }
-	saveAudioData(data.content,function(fo){
+	logic.saveAudioData(data.content,function(fo){
 		m.content= fo
-		//io.sockets.in(data.roomid).emit('message',m);
 		logic.saveVoiceMessage(m);
-		logic.pushMessage(m);
-		console.log('Audio OK:'+JSON.stringify(m))
+		io.sockets.in(data.roomid).emit('message',m);
+		// logic.pushMessage(m).then(function(r){
+		// 	console.log('Audio OK:'+JSON.stringify(r))
+		// }).catch(function(err){
+		// 	console.log('Audio Send Failed:'+err);
+		// });
 		res.json(m);
 	});
 

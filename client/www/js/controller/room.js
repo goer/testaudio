@@ -54,11 +54,23 @@ angular.module('RoomModule', ['CompanyModule','Audio'])
 
     })
 
-    .controller('MemberDetailCtrl', function ($scope, $state, $stateParams, CUserSvc) {
+    .controller('MemberDetailCtrl', function ($scope, $state, $stateParams, CUserSvc,CRoomSvc, COwnerSvc) {
 
 
         $scope.data = {
             user : CUserSvc.getUser(),
+        }
+
+        $scope.privateChat = function (userid){
+
+            COwnerSvc.privateChat(userid).then(function(room){
+
+                CRoomSvc.setRoom(room);
+                $state.go('room');
+
+            })
+
+
         }
 
 
@@ -100,5 +112,22 @@ angular.module('RoomModule', ['CompanyModule','Audio'])
 
 
     })
+
+    .controller('MessagesCtrl', function($scope,CRoomSvc,AudioSvc){
+
+        $scope.data = {
+            messages : [],
+        }
+
+        CRoomSvc.getMessages().then(function(msgs){
+            $scope.data.messages = msgs;
+        })
+
+        $scope.playMessageContent = function(m){
+            AudioSvc.playSound(m.content);
+        }
+
+    })
+
 
 ;

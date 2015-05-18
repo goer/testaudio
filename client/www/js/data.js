@@ -47,7 +47,6 @@ angular.module('Data',['js-data','ServerConfig'])
         return DS.defineResource('message');
     })
     .factory('MessageAudio', function (DS,ServerSvc) {
-        DS.basePath = ServerSvc.audioMessage();
         return DS.defineResource('api/audio/messageaudio');
     })
     .factory('RoomUser', function (DS) {

@@ -60,6 +60,43 @@ angular.module('CompanyModule',['Data'])
             })    
         }
 
+        
+
+        function createPrivateChatRoom(userid){
+
+            var d=$q.defer()
+            Room.create({ name: owner.id+':'+userid, userid: owner.id, type: '2'}).then(function(room){
+                Member.create({ roomid: room.id, userid: owner.id});
+                Member.create({ roomid: room.id, userid: userid});
+                d.resolve(room)
+            })
+            return d.promise;
+        }
+
+        function findOwnerPrivateRoom(userid){
+
+            //userid is owners friend
+            //find if room is already created
+                var d=$q.defer()
+                Room.findAll({name : owner.id+':'+userid}).then(function(rs){
+                    if(rs.length>0){
+                        d.resolve(rs[0])
+                    }else{
+                        //find other side
+                        Room.findAll({name : userid+':'+owner.id }).then(function(r){
+                            if(r.length>0){
+                                d.resolve(r[0])
+                            }else{
+                                d.resolve(createPrivateChatRoom(userid))
+                            }
+                        })
+                    }
+                }) 
+
+                return d.promise;
+
+        }
+
 
         return {
 
@@ -79,7 +116,9 @@ angular.module('CompanyModule',['Data'])
                     if(users.length>0) {
                         owner = users[0];
                         CompanySvc.setCompanyByOwner(owner);
-                        updateTokenOwner();
+                        if(ionic.Platform.isAndroid() || ionic.Platform.isIOS()){
+                            updateTokenOwner();
+                        }
                         console.log('Login OK:' + JSON.stringify(owner));
                         d.resolve(owner);
                     }else{
@@ -138,7 +177,12 @@ angular.module('CompanyModule',['Data'])
 
                 return Room.destroy(id);
 
+            },
+
+            privateChat : function(userid){
+                return findOwnerPrivateRoom(userid);
             }
+
 
         }
 

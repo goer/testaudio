@@ -7,6 +7,28 @@ dpd.message = dpd("/message")
 dpd.member = dpd('/member')
 
 var Q = require('q');
+var uuid = require('uuid');
+var fs=require('fs');
+var child_process= require('child_process');
+var gcm = require('node-gcm');
+
+
+exports.saveAudioData = function(data,cb){
+
+	var buf = new Buffer(data, 'base64');
+	var fin = '/tmp/'+uuid.v4()+'.wav';
+	var fout = uuid.v4()+'.mp3';
+	var input = fs.createWriteStream(fin);
+	input.write(buf);
+	input.end();
+	var ffmpeg = child_process.spawn('ffmpeg', [ '-v', 'debug', '-i', fin, '-f', 'mp3', '-y', 'public/audio/'+fout]);
+	ffmpeg.stderr.on('close', function() {
+	    console.log('Saving OK: '+fout);
+	    fs.unlink(fin);
+	    cb(fout);
+	});
+	return fout;
+}
 
 exports.saveVoiceMessage = function(msg){
 
@@ -43,7 +65,7 @@ exports.saveVoiceMessage = function(msg){
 function pushToDeviceAndroid(deviceToken,data){
 	console.log('Start pushToDeviceAndroid')
 	var d=Q.defer();
-	var gcm = require('node-gcm');
+	
 	var message = new gcm.Message({
 	    collapseKey: 'pttserver',
 	    delayWhileIdle: true,
@@ -55,6 +77,7 @@ function pushToDeviceAndroid(deviceToken,data){
 	var registrationIds = [];
 	registrationIds.push(deviceToken.token);
 	var sender = new gcm.Sender('AIzaSyD2AQDi6a0TPX-kGnbyFbj4VF3WrmwVpj8');
+	console.log('GCM Sender: msg:'+JSON.stringify(message)+' regids:'+registrationIds);
 	sender.send(message, registrationIds, 10, function (err, result) {
 	  	if(err){
 	  		console.error(err);
@@ -79,7 +102,7 @@ exports.pushMessage = function(data){
 				if(dt.devicetype==='android'){
 					//do push for android
 					console.log('push to token:'+dt.token);
-					d.resolve(pushToDeviceAndroid(deviceToken,data))
+					d.resolve(pushToDeviceAndroid(dt,data))
 				}
 			})
 		})

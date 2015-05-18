@@ -19,7 +19,7 @@ angular.module('starter',
 
 
 
-    .run(function ($ionicPlatform, $rootScope,  $state, OwnerSvc, PushSvc) {
+    .run(function ($ionicPlatform, $rootScope,  $state, OwnerSvc, PushSvc, $socket,AudioSvc,WebAudio) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -50,9 +50,48 @@ angular.module('starter',
 
             });
 
-            if(ionic.Platform.isAndroid()){
-                PushSvc.android();
+        if (ionic.Platform.isAndroid() || ionic.Platform.isIOS()) {
+            PushSvc.android();
+            cordova.plugins.backgroundMode.setDefaults({
+                text: 'Doing heavy tasks.'
+            });
+            cordova.plugins.backgroundMode.enable();
+            cordova.plugins.backgroundMode.onactivate = function() {
+                
+                $socket.on('message', function(data) {
+
+                    console.log('Receive Message:' + JSON.stringify(data))
+                    cordova.plugins.backgroundMode.configure({
+                        text: 'Receive Message from:' + data.userid + ' mp3:' + data.content
+                    });
+                    //if(parseInt(data.type)==2){
+                    console.log('Audio Message')
+                    AudioSvc.playSound(data.content);
+                    //}
+
+                })
+
             }
+
+
+        } else {
+            WebAudio.init();
+        }
+
+
+
+
+            
+
+                // setTimeout(function () {
+                //     // Modify the currently displayed notification
+                //     cordova.plugins.backgroundMode.configure({
+                //         text:'Running in background for more than 5s now.'
+                //     });
+                // }, 5000)
+
+
+           
 
 
         });

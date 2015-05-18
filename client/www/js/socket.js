@@ -1,7 +1,7 @@
 /**
  * Created by goer on 4/30/15.
  */
-angular.module('Socket',['ServerConfig'])
+angular.module('Socket',['ServerConfig','Audio'])
 
     .factory('$socket', function($rootScope,ServerSvc) {
 
@@ -28,4 +28,17 @@ angular.module('Socket',['ServerConfig'])
                 });
             }
         };
+    })
+
+
+    .factory('AudioSocket',function(AudioSvc){
+
+        return {
+
+
+
+
+        }
+
+
     })
