@@ -4,19 +4,21 @@
             <h1 class="title">Members</h1>
 
 
-            <button class="button" ui-sref="room">Done</button>
-            <button class="button" ui-sref="addmember">Add Member</button>
+            <button class="button button-clear icon ion-chevron-left" ui-sref="room"></button>
+            <button class="button button-clear icon ion-plus" ui-sref="addmember"></button>
 
 
 
         </ion-header-bar>
         <ion-content>
 
-            <ion-list ng-repeat="m in data.members">
+            <ion-list >
 
-                <ion-item>
-                    <p ng-click="goToUserDetail(m.user)">{{m.user.email}}</p>
-                    <ion-option-button class="button-assertive" ng-click="deleteMember(m.id)">Delete</ion-option-button>
+                <ion-item class="item item-avatar item-icon-right" ng-repeat="m in data.members" ng-click="goToUserDetail(m.user)">
+                    <i class="icon ion-chevron-right"></i>
+                    <img gravatar-src-once="m.user.email"></img>
+                    <h2>{{m.user.email}}</h2>
+                    <ion-option-button class="button-assertive icon ion-minus-circled" ng-click="deleteMember(m.id)"></ion-option-button>
                 </ion-item>
 
             </ion-list>
@@ -24,9 +26,6 @@
 
         </ion-content>
 
-        <ion-footer-bar align-title="left" class="bar-stable">
-            <h1 class="title">Length {{data.members.length}}</h1>
-        </ion-footer-bar>
 
     </ion-pane>
 </ion-view>

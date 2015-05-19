@@ -14,11 +14,8 @@ angular.module('Login',['CompanyModule','Audio'])
             COwnerSvc.login($scope.data.email,$scope.data.password).then(function(owner){
 
             $socket.on('message',function(data){
-                console.log('Receive Message:'+JSON.stringify(data))
-                //if(parseInt(data.type)==2){
-                    console.log('Audio Message')
-                    AudioSvc.playSound(data.content);
-                //}
+
+                AudioSvc.onMessage(data);
 
             })    
 

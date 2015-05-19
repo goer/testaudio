@@ -1,0 +1,13 @@
+//
+   Created by goer on 5/20/15.
+
+ion-view(title='User Detail')
+   ion-pane
+      ion-header-bar.bar-stable
+         button.button.button-clear.icon.ion-chevron-left(ui-sref='users')
+         h1.title User Detail
+      ion-content
+         form(ng-submit='updateUser()')
+            include detailuser
+            label.item
+               button.button.button-block.button-positive(type='submit') Update

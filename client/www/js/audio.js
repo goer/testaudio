@@ -457,9 +457,10 @@ angular.module('Audio', ['ngCordova', 'Socket', 'Data', 'CompanyModule','base64'
     })
 
 
-    .factory('AudioSvc', function ($record, ServerSvc, CRoomSvc, COwnerSvc, MessageAudio, Message, $socket, WebAudio) {
+    .factory('AudioSvc', function ($q, $rootScope, $record, ServerSvc, CRoomSvc, COwnerSvc, MessageAudio, Message, $socket, WebAudio) {
 
         function sendAudio(base64Data){
+                    var d=$q.defer();
                     var amsg = {
                         roomid: CRoomSvc.getRoom().id,
                         userid: COwnerSvc.getOwner().id,
@@ -470,15 +471,28 @@ angular.module('Audio', ['ngCordova', 'Socket', 'Data', 'CompanyModule','base64'
                     amsg.content = base64Data;
                     MessageAudio.create(amsg).then(function (msg) {
                         console.log("Receive audio msg URL:" + JSON.stringify(msg));
+                        d.resolve(msg);
                     });
+                    return d.promise;
                 }
 
         return {
 
+            onMessage: function(data){
+
+                console.log('Receive Message:'+JSON.stringify(data))
+                $rootScope.$broadcast('newmessage',data);
+                //if(parseInt(data.type)==2){
+                console.log('Audio Message')
+                this.playSound(data.content);
+                //}
+
+            },
+
             playSound: function (soundid) {
 
                 var url = ServerSvc.audioServer() + '/' + soundid;
-                console.log("playRecord"+url);
+                console.log("playRecord: "+url);
                 var snd = new Audio(url);
                 snd.play();
 
@@ -498,19 +512,21 @@ angular.module('Audio', ['ngCordova', 'Socket', 'Data', 'CompanyModule','base64'
 
             stopRecord: function () {
 
+                var d=$q.defer();
+
                 console.log("stopRecord");
                 if( ionic.Platform.isAndroid() || ionic.Platform.isIOS() ){
                     $record.stop();
                     $record.save(function (base64Data) {
-                            sendAudio(base64Data)
+                        d.resolve(sendAudio(base64Data))
                     });
                 }else{
                     WebAudio.stop().then(function(base64Data){
-                        sendAudio(base64Data);
+                        d.resolve(sendAudio(base64Data))
                     })
                 }
 
-
+                return d.promise;
             }
 
 

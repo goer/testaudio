@@ -1,22 +1,32 @@
 <ion-view title="Rooms">
     <ion-pane>
         <ion-header-bar class="bar-stable">
+
+            <img gravatar-src="'fonetix@gmail.com'" gravatar-size="24">
+
             <h1 class="title">Rooms</h1>
 
 
                 <div class="buttons">
-                    <button class="button" ui-sref="addroom">Add Room</button>
+                    <button class="button button-clear icon-left ion-compose" ui-sref="addroom"></button>
                 </div>
 
 
         </ion-header-bar>
-        <ion-content>
+        <ion-content class="has-header">
 
-            <ion-list ng-repeat="r in data.rooms">
+            <ion-list>
 
-                <ion-item>
-                    <p ng-click="goToRoom(r.room)">{{r.room.name}}</p>
-                </ion-item>
+               <ion-item
+                       class="item item-avatar item-icon-right"
+                       ng-repeat="r in data.rooms"
+                       ng-click="goToRoom(r.room)">
+                            <i class="icon ion-chevron-right"></i>
+                            <img src="">
+                            <h2>{{r.room.name}}</h2>
+                            <p></p>
+
+               </ion-item>
 
             </ion-list>
 
@@ -25,7 +35,7 @@
 
         <ion-footer-bar align-title="left" class="bar-stable">
             <h1 class="title">Status: {{status}}</h1>
-            <button class="button" ui-sref="settings">Settings</button>
+            <button class="button button-clear icon-left ion-ios-gear" ui-sref="settings">Settings</button>
         </ion-footer-bar>
     </ion-pane>
 </ion-view>

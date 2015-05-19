@@ -10,6 +10,7 @@
     "js-data-angular": "~2.4.0",
     "satellizer": "~0.10.1",
     "angular-translate": "~2.7.0",
-    "underscore": "~1.8.3"
+    "underscore": "~1.8.3",
+    "angular-gravatar": "~0.3.1"
   }
 }

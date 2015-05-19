@@ -4,17 +4,17 @@
             <h1 class="title">Add Member</h1>
 
 
-            <button class="button" ui-sref="members">Cancel</button>
-            <button class="button" ng-click="addMembers()">Add</button>
+            <button class="button button-clear icon ion-chevron-left" ui-sref="members"></button>
+            <button class="button button-clear icon ion-checkmark" ng-click="addMembers()"></button>
 
 
 
         </ion-header-bar>
         <ion-content>
 
-            <ion-list ng-repeat="u in data.users">
+            <ion-list>
 
-                <ion-item>
+                <ion-item ng-repeat="u in data.users">
                     <ion-checkbox ng-model="u.selected">{{u.email}}</ion-checkbox>
                 </ion-item>
 
@@ -23,9 +23,6 @@
 
         </ion-content>
 
-        <ion-footer-bar align-title="left" class="bar-stable">
-
-        </ion-footer-bar>
 
     </ion-pane>
 </ion-view>

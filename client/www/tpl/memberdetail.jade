@@ -1,0 +1,9 @@
+ion-view(title='Member Detail')
+    ion-pane
+        ion-header-bar.bar-stable
+            button.button.button-clear.icon.ion-chevron-left(ui-sref='members')
+            h1.title Member Detail
+        ion-content
+            include detailuser
+        ion-footer-bar.bar-stable(align-title='left')
+            button.button(ng-click='privateChat(data.user.id)') Chat

@@ -1,25 +1,53 @@
 <ion-view title="Room: {{data.name}}">
     <ion-pane>
         <ion-header-bar class="bar-stable">
-            <h1 class="title">Room: {{data.name}}</h1>
 
-
-                <button class="button" ui-sref="main">Done</button>
-                <button class="button" ng-click="goToMembers()">Members</button>
+                <button class="button button-clear icon ion-chevron-left" ui-sref="main"></button>
+                <h1 class="title">Room: {{data.name}}</h1>
+                <button class="button button-clear icon ion-person" ng-click="goToMembers()"></button>
 
 
         </ion-header-bar>
-        <ion-content class="center" has-header="true" padding="true">
 
-            <button id="record" class="button"  on-hold="startRecord()" on-release="stopRecord()">Record</button>
+        <ion-content has-header="true">
+
+            <ion-list ng-controller="MessagesCtrl">
+                    <ion-item
+                            class="item"
+                            ng-repeat="m in data.messages"
+                            ng-click="playMessageContent(m)"
+                            >
+
+                        <div ng-if="isOwnerMessage(m)") align="right">
+                            <img gravatar-src="'{{m.user.email}}'">
+                            <h2>{{m.user.email}}</h2>
+                            <p>{{m.content}}</p>
+                        </div>
+
+                        <div ng-if="!isOwnerMessage(m)") align="left">
+                            <img gravatar-src="'{{m.user.email}}'">
+                            <h2>{{m.user.email}}</h2>
+                            <p>{{m.content}}</p>
+                        </div>
+
+                    </ion-item>
+
+            </ion-list>
+
 
         </ion-content>
 
-        <ion-footer-bar align-title="left" class="bar-stable">
-            <h1 class="title">Status: {{status}}</h1>
+        <ion-footer-bar class="bar-stable item-input-inset footer-item-input-insert">
 
-                <button class="button" ui-sref="rewind">Rewind</button>
-                <button class="button" ui-sref="messages">History</button>
+
+                <button id="record"
+                        class="button button-block {{classButton}} icon-left ion-mic-a"
+                        on-hold="startRecord()"
+                        on-release="stopRecord()"
+                        >
+                    Talk
+                </button>
+
 
         </ion-footer-bar>
 

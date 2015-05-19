@@ -13,11 +13,25 @@ angular.module('starter',
         'User',
         'Main',
         'Login',
-        'PushModule'
+        'PushModule',
+        'ui.gravatar'
     ]
 )
 
+    .config([
+        'gravatarServiceProvider', function(gravatarServiceProvider) {
+            gravatarServiceProvider.defaults = {
+                size     : 50,
+                "default": 'mm'  // Mystery man as default for missing avatars
+            };
 
+            // Use https endpoint
+            gravatarServiceProvider.secure = false;
+
+            // Force protocol
+            gravatarServiceProvider.protocol = 'http';
+        }
+    ])
 
     .run(function ($ionicPlatform, $rootScope,  $state, OwnerSvc, PushSvc, $socket,AudioSvc,WebAudio) {
         $ionicPlatform.ready(function () {
@@ -57,17 +71,14 @@ angular.module('starter',
             });
             cordova.plugins.backgroundMode.enable();
             cordova.plugins.backgroundMode.onactivate = function() {
-                
+
                 $socket.on('message', function(data) {
 
-                    console.log('Receive Message:' + JSON.stringify(data))
                     cordova.plugins.backgroundMode.configure({
                         text: 'Receive Message from:' + data.userid + ' mp3:' + data.content
                     });
-                    //if(parseInt(data.type)==2){
-                    console.log('Audio Message')
-                    AudioSvc.playSound(data.content);
-                    //}
+
+                    AudioSvc.onMessage(data);
 
                 })
 

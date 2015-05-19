@@ -16,8 +16,21 @@ angular.module('RoomModule', ['CompanyModule','Audio'])
             $state.go('members');
         }
 
-        $scope.startRecord = AudioSvc.startRecord;
-        $scope.stopRecord = AudioSvc.stopRecord;
+        $scope.classButton = "button-positive"
+
+        $scope.startRecord = function(){
+
+            $scope.classButton = "button-negative"
+            AudioSvc.startRecord();
+
+
+        }
+        $scope.stopRecord = function(){
+
+            AudioSvc.stopRecord().then(function(msg){
+                $scope.classButton = "button-positive"
+            })
+        }
 
 
     })
@@ -113,7 +126,7 @@ angular.module('RoomModule', ['CompanyModule','Audio'])
 
     })
 
-    .controller('MessagesCtrl', function($scope,CRoomSvc,AudioSvc){
+    .controller('MessagesCtrl', function(User,$rootScope,$scope,CRoomSvc,COwnerSvc,AudioSvc,$ionicScrollDelegate){
 
         $scope.data = {
             messages : [],
@@ -121,11 +134,34 @@ angular.module('RoomModule', ['CompanyModule','Audio'])
 
         CRoomSvc.getMessages().then(function(msgs){
             $scope.data.messages = msgs;
+            $ionicScrollDelegate.scrollBottom(true);
         })
+
+
+        var offNewMessage = $rootScope.$on('newmessage',function(event,data){
+
+            if(CRoomSvc.getRoom().id!=data.roomid) return null;
+
+            User.find(data.userid).then(function(user){
+                data.user=user;
+                $scope.data.messages.push(data);
+                $ionicScrollDelegate.scrollBottom(true);
+            })
+
+        })
+
+        $scope.isOwnerMessage = function(msg){
+            return (msg.userid==COwnerSvc.getOwner().id)
+        }
 
         $scope.playMessageContent = function(m){
             AudioSvc.playSound(m.content);
         }
+
+        $scope.$on("$destroy", function(){
+            //de register listener
+            offNewMessage();
+        });
 
     })
 
