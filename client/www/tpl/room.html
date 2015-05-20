@@ -21,13 +21,13 @@
                         <div ng-if="isOwnerMessage(m)") align="right">
                             <img gravatar-src="'{{m.user.email}}'">
                             <h2>{{m.user.email}}</h2>
-                            <p>{{m.content}}</p>
+                            <p><span am-time-ago="m.date"></span></p>
                         </div>
 
                         <div ng-if="!isOwnerMessage(m)") align="left">
                             <img gravatar-src="'{{m.user.email}}'">
                             <h2>{{m.user.email}}</h2>
-                            <p>{{m.content}}</p>
+                            <p><span am-time-ago="m.date"></span></p>
                         </div>
 
                     </ion-item>

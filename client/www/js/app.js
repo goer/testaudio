@@ -14,7 +14,8 @@ angular.module('starter',
         'Main',
         'Login',
         'PushModule',
-        'ui.gravatar'
+        'ui.gravatar',
+        'angularMoment'
     ]
 )
 

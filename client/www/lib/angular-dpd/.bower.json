@@ -1,0 +1,14 @@
+{
+  "name": "angular-dpd",
+  "homepage": "https://github.com/slively/angular-dpd",
+  "_release": "2f41131b69",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "2f41131b699e75b64c631756f57c00f576620b60"
+  },
+  "_source": "https://github.com/slively/angular-dpd.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/slively/angular-dpd.git",
+  "_direct": true
+}

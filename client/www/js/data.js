@@ -1,7 +1,7 @@
 /**
  * Created by goer on 4/30/15.
  */
-angular.module('Data',['js-data','ServerConfig'])
+angular.module('Data',['js-data','ServerConfig','dpd'])
 
 
     .factory('$localstorage', ['$window', function($window) {
@@ -20,6 +20,9 @@ angular.module('Data',['js-data','ServerConfig'])
             }
         }
     }])
+
+
+
 
     .config(function (DSProvider,ServerSvc) {
         DSProvider.defaults.basePath = ServerSvc.baseUrl(); // etc.
@@ -65,4 +68,21 @@ angular.module('Data',['js-data','ServerConfig'])
             }
         );
     })
+
+
+
+    // Configuration:
+    //.value('dpdConfig',['categories'])
+    // or
+    .factory('dpdConfig', function(ServerSvc){
+
+        return {
+            collections: ['message','myuser'],
+            serverRoot: ServerSvc.baseUrl(), // optional, defaults to same server
+            socketOptions: { reconnectionDelayMax: 3000 }, // optional socket io additional configuration
+            useSocketIo: false, // optional, defaults to false
+            noCache: false, // optional, defaults to false (false means that caching is enabled, true means it disabled)
+        }
+
+    } )
 
