@@ -189,7 +189,7 @@ angular.module('CompanyModule',['Data'])
 
     })
 
-.factory('CRoomSvc',function($q,Room,Message,Member,CompanySvc){
+.factory('CRoomSvc',function($q,Room,Message,Member,CompanySvc,dpd){
 
         var room=null;
 
@@ -208,7 +208,8 @@ angular.module('CompanyModule',['Data'])
 
             getMessages : function(){
 
-               return  Message.findAll({roomid: room.id  }, {bypassCache: true});
+               //return  Message.findAll({roomid: room.id  }, {bypassCache: true});
+                return dpd.message.get({  $sort: {  created: -1}, $limit: 30 })
 
             },
 

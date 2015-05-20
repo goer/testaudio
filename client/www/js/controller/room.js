@@ -133,7 +133,11 @@ angular.module('RoomModule', ['CompanyModule','Audio'])
         }
 
         CRoomSvc.getMessages().then(function(msgs){
-            $scope.data.messages = msgs;
+            //console.log('get messages: '+JSON.stringify(msgs))
+            $scope.data.messages = msgs.data.slice().reverse();
+            for(var i=0;i<$scope.data.messages.length;i++){
+                $scope.data.messages[i].date = new Date($scope.data.messages[i].created)
+            }
             $ionicScrollDelegate.scrollBottom(true);
         })
 
