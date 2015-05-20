@@ -1,16 +1,10 @@
 <ion-view title="Rooms">
     <ion-pane>
-        <ion-header-bar class="bar-stable">
+        <ion-header-bar class="bar-stable" title="Rooms" align-title="center" >
 
             <img gravatar-src="'fonetix@gmail.com'" gravatar-size="24">
-
-            <h1 class="title">Rooms</h1>
-
-
-                <div class="buttons">
-                    <button class="button button-clear icon-left ion-compose" ui-sref="addroom"></button>
-                </div>
-
+            <h1 class="title">Channels</h1>
+            <button class="button button-clear icon-left ion-compose" ui-sref="addroom"></button>
 
         </ion-header-bar>
         <ion-content class="has-header">
@@ -35,7 +29,7 @@
 
         <ion-footer-bar align-title="left" class="bar-stable">
             <h1 class="title">Status: {{status}}</h1>
-            <button class="button button-clear icon-left ion-ios-gear" ui-sref="settings">Settings</button>
+            <button class="button button-clear icon ion-ios-gear" ui-sref="settings"></button>
         </ion-footer-bar>
     </ion-pane>
 </ion-view>

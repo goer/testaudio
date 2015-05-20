@@ -1,9 +1,10 @@
 <ion-view title="Settings">
     <ion-pane>
-        <ion-header-bar class="bar-stable">
-            <h1 class="title">Settings</h1>
-            <button class="button" ui-sref="main">Done</button>
+        <ion-header-bar class="bar-stable" align-title="center">
 
+            <button class="button button-clear icon ion-chevron-left" ui-sref="main"></button>
+            <h1 class="title">Settings</h1>
+            <button class="button button-clear icon ion-person-stalker" ui-sref="users"></button>
 
         </ion-header-bar>
         <ion-content>
@@ -11,9 +12,11 @@
             <ion-list>
 
                 <ion-item>
+                    <h2>Choose 1</h2>
                     <p>Setting 1</p>
                 </ion-item>
                 <ion-item>
+                    <h2>Logout</h2>
                     <p>Setting 2</p>
                 </ion-item>
 
@@ -22,10 +25,6 @@
 
         </ion-content>
 
-        <ion-footer-bar align-title="left" class="bar-stable">
-            <button class="button" ui-sref="settings">General</button>
-            <button class="button" ui-sref="users">Users</button>
-        </ion-footer-bar>
 
     </ion-pane>
 </ion-view>
